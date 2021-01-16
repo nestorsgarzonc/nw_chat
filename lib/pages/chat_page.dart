@@ -29,7 +29,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
             SizedBox(width: 10),
             Text(
               'Sebastian Garzon',
-              style: TextStyle(color: Colors.black87, fontSize: 18),
+              style: TextStyle(color: Colors.black54, fontSize: 18),
             )
           ],
         ),
@@ -72,6 +72,13 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     setState(() {});
     controller.clear();
     focusNode.requestFocus();
+  }
+
+  @override
+  void dispose() {
+    //TODO: clean socket
+    _messages.forEach((e) => e.animationController.dispose());
+    super.dispose();
   }
 }
 
