@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nw_chat_fer/helpers/show_alert.dart';
 import 'package:nw_chat_fer/pages/login_page.dart';
+import 'package:nw_chat_fer/services/auth_service.dart';
 import 'package:nw_chat_fer/widgets/custom_input.dart';
 import 'package:nw_chat_fer/widgets/icon_widget.dart';
 import 'package:nw_chat_fer/widgets/labels_widget.dart';
 import 'package:nw_chat_fer/widgets/large_button.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   static const route = 'RegisterPage';
@@ -67,15 +70,36 @@ class __FormState extends State<_Form> {
             keybardType: TextInputType.visiblePassword,
           ),
           SizedBox(height: 20),
-          LargeButton(
-            text: 'Registrarme',
-            onPressed: () {
-              print('asd');
-              print(_emailController.text);
-            },
-          )
+          Provider.of<AuthService>(context).isLoading
+              ? Center(child: CircularProgressIndicator())
+              : LargeButton(
+                  text: 'Registrarme',
+                  onPressed: _handleRegister,
+                ),
         ],
       ),
     );
+  }
+
+  Future<void> _handleRegister() async {
+    final bool res = await Provider.of<AuthService>(context, listen: false).signIn(
+      email: _emailController.text.trim(),
+      name: _nameController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+    if (res) {
+      await showAlert(
+        context: context,
+        subtitle: 'Usuario creado correctamente, inicia sesion con tu cuenta',
+        title: 'Felicitaciones',
+      );
+      Navigator.of(context).pushReplacementNamed(LoginPage.route);
+    } else {
+      await showAlert(
+        context: context,
+        subtitle: 'Ha ocurrido un error, verifica los datos ingresados',
+        title: 'Oops',
+      );
+    }
   }
 }

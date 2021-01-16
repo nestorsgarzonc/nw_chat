@@ -41,6 +41,27 @@ class AuthService with ChangeNotifier {
     }
   }
 
+  Future<bool> signIn({String email, String password, String name}) async {
+    isLoading = true;
+    final data = {
+      'email': email,
+      'password': password,
+      'name': name,
+    };
+    final resp = await http.post(
+      '${Enviroment.apiURL}/login/new',
+      body: json.encode(data),
+      headers: {'Content-Type': 'application/json'},
+    );
+    print(resp.body);
+    isLoading = false;
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<bool> logout() async {
     await _deleteToken();
     return true;
