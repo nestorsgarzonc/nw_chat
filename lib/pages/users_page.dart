@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nw_chat_fer/models/users.dart';
 import 'package:nw_chat_fer/pages/login_page.dart';
 import 'package:nw_chat_fer/services/auth_service.dart';
+import 'package:nw_chat_fer/services/socket_service.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -17,7 +18,7 @@ class _UsersPageState extends State<UsersPage> {
   final users = [
     User(uid: '1', name: 'Karylin', email: 'kmackeague0@soundcloud.com', online: false),
     User(uid: '2', name: 'Gearalt', email: 'gcullabine1@digg.com', online: true),
-    User(uid: '3', name: 'Eleen', email: 'epetrou2@telegraph.co.uk', online: false),  
+    User(uid: '3', name: 'Eleen', email: 'epetrou2@telegraph.co.uk', online: false),
     User(uid: '16', name: 'Ryun', email: 'ralessandruccif@zdnet.com', online: true),
     User(uid: '17', name: 'Perry', email: 'pbarlthropg@google.com.au', online: true),
     User(uid: '18', name: 'Kevan', email: 'kpactath@va.gov', online: true),
@@ -26,6 +27,7 @@ class _UsersPageState extends State<UsersPage> {
   @override
   Widget build(BuildContext context) {
     final AuthService authProv = Provider.of<AuthService>(context);
+    final SocketService socketService = Provider.of<SocketService>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +44,12 @@ class _UsersPageState extends State<UsersPage> {
         ),
         actions: [
           Container(
-            child: Icon(Icons.check_circle, color: Colors.blue),
+            child: Icon(
+              socketService.serverStatus == ServerStatus.Online
+                  ? Icons.check_circle
+                  : Icons.ac_unit,
+              color: Colors.blue,
+            ),
             margin: EdgeInsets.only(right: 10),
           ),
         ],
