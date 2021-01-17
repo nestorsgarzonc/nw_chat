@@ -82,7 +82,6 @@ class __FormState extends State<_Form> {
       password: _passwordController.text.trim(),
     );
     if (result) {
-      //TODO: connect server
       Navigator.of(context).pushReplacementNamed(UsersPage.route);
     } else {
       showAlert(context: context, subtitle: 'Credenciales incorrectas', title: 'Opps');

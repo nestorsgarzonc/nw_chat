@@ -63,7 +63,7 @@ class AuthService with ChangeNotifier {
   }
 
   Future<bool> logout() async {
-    await _deleteToken();
+    await deleteToken();
     return true;
   }
 
@@ -77,7 +77,26 @@ class AuthService with ChangeNotifier {
     return token;
   }
 
-  static Future<void> _deleteToken() async {
+  Future<bool> isLoggedIn() async {
+    final token = await _storage.read(key: 'token');
+    final resp = await http.get(
+      '${Enviroment.apiURL}/login/renew',
+      headers: {'Content-Type': 'application/json', 'x-token': token},
+    );
+    print(resp.body);
+    if (resp.statusCode == 200) {
+      final res = loginResponseFromJson(resp.body);
+      user = res.userDb;
+      print('${res.token}');
+      await _saveToken(res.token);
+      return true;
+    } else {
+      await logout();
+      return false;
+    }
+  }
+
+  static Future<void> deleteToken() async {
     final _storage = FlutterSecureStorage();
     await _storage.delete(key: 'token');
   }
