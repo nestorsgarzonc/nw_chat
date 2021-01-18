@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nw_chat_fer/helpers/show_alert.dart';
 import 'package:nw_chat_fer/pages/register_page.dart';
 import 'package:nw_chat_fer/services/auth_service.dart';
+import 'package:nw_chat_fer/services/socket_service.dart';
 import 'package:nw_chat_fer/widgets/custom_input.dart';
 import 'package:nw_chat_fer/widgets/icon_widget.dart';
 import 'package:nw_chat_fer/widgets/labels_widget.dart';
@@ -82,6 +83,7 @@ class __FormState extends State<_Form> {
       password: _passwordController.text.trim(),
     );
     if (result) {
+      Provider.of<SocketService>(context, listen: false).connect();
       Navigator.of(context).pushReplacementNamed(UsersPage.route);
     } else {
       showAlert(context: context, subtitle: 'Credenciales incorrectas', title: 'Opps');

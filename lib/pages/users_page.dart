@@ -38,18 +38,16 @@ class _UsersPageState extends State<UsersPage> {
           icon: Icon(Icons.exit_to_app_rounded, color: Colors.black),
           onPressed: () {
             //Logout
+            socketService.disconnect();
             AuthService.deleteToken();
             Navigator.of(context).pushReplacementNamed(LoginPage.route);
           },
         ),
         actions: [
           Container(
-            child: Icon(
-              socketService.serverStatus == ServerStatus.Online
-                  ? Icons.check_circle
-                  : Icons.ac_unit,
-              color: Colors.blue,
-            ),
+            child: socketService.serverStatus == ServerStatus.Online
+                ? Icon(Icons.check_circle, color: Colors.blue)
+                : Icon(Icons.offline_bolt, color: Colors.red),
             margin: EdgeInsets.only(right: 10),
           ),
         ],

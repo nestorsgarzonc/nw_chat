@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nw_chat_fer/pages/login_page.dart';
 import 'package:nw_chat_fer/pages/users_page.dart';
 import 'package:nw_chat_fer/services/auth_service.dart';
+import 'package:nw_chat_fer/services/socket_service.dart';
 import 'package:provider/provider.dart';
 
 class LoadingPage extends StatelessWidget {
@@ -15,6 +16,7 @@ class LoadingPage extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.data) {
+              Provider.of<SocketService>(context, listen: false).connect();
               return UsersPage();
             }
             return LoginPage();
