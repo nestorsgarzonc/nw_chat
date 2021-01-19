@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nw_chat_fer/pages/loading_page.dart';
 import 'package:nw_chat_fer/services/auth_service.dart';
+import 'package:nw_chat_fer/services/chat_service.dart';
 import 'package:nw_chat_fer/services/socket_service.dart';
+import 'package:nw_chat_fer/services/users_service.dart';
 import 'package:provider/provider.dart';
 
 import 'routes/routes.dart';
@@ -15,6 +17,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => AuthService()),
         ChangeNotifierProvider(create: (ctx) => SocketService()),
+        ChangeNotifierProvider(create: (ctx) => UserService()),
+        ChangeNotifierProvider(create: (ctx) => ChatService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
