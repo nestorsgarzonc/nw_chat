@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nw_chat_fer/global/enviroment.dart';
 import 'package:nw_chat_fer/models/users.dart';
 import 'package:http/http.dart' as http;
